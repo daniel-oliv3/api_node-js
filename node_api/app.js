@@ -55,7 +55,7 @@ app.post("/artigo", (req, res) => {
       });
 
     return res.status(400).json({
-      error: true,
+      error: false,
       message: "Artigo cadastrado com sucesso!"
     });
   });
@@ -69,11 +69,25 @@ app.put("/artigo/:id", (req, res) => {
       });
 
     return res.json({
-        error: true,
+        error: false,
         message: "Artigo editado com sucesso!"
     });
   });
 });
+
+app.delete("/artigo/:id", (req, res) => {
+    const artigo = Artigo.deleteOne({ _id: req.params.id }, req.body, (err) => {
+      if (err) return res.status(400).json({
+          error: true,
+          message: "Erro: Artigo não foi apagado!"
+        });
+  
+      return res.json({
+          error: false,
+          message: "Artigo apagado com sucesso!"
+      });
+    });
+  });
 
 app.listen(8080, () => {
   console.log("Servidor iniciado na porta 8080: http://localhost:8080/");
