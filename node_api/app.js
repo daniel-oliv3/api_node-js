@@ -18,7 +18,14 @@ mongoose.connect('mongodb://localhost/banco_d', {
 });
 
 app.get("/", (req, res) => {
-    return res.json({titulo: "Como criar API"});
+    Artigo .find({}).then((artigo) => {
+        return res.json(artigo);
+    }).catch((erro) =>{
+        return res.status(400).jason({
+            erro: true,
+            menssage: "Nenhum artigo encontrado!"
+        })
+    })
 });
 
 app.post("/artigo", (req, res) => {
