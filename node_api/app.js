@@ -1,5 +1,6 @@
 const express = require("express");
 const mongoose = require("mongoose");
+const cors = require('cors');
 
 require("./models/Artigo");
 const Artigo = mongoose.model("artigo");
@@ -7,6 +8,14 @@ const Artigo = mongoose.model("artigo");
 const app = express();
 
 app.use(express.json());
+
+app.use((req, res, next) => {
+    //console.log("Acessou com Middleware!");
+    res.header("Access-Control-Allow-Origin", "*");
+    res.header("Access-Control-Allow-Methods", "GET,PUT,POST,DELETE");
+    app.use(cors());
+    next();
+});
 
 mongoose
   .connect("mongodb://localhost/banco_d", {
